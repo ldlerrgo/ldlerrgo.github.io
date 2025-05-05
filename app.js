@@ -1,14 +1,14 @@
 const phrases = [
-    "You are stronger than you think.",
-    "Every setback is a setup for a comeback.",
-    "Discipline is choosing between what you want now and what you want most.",
-    "Your future self is watching you through memories. Make them proud.",
-    "The pain you feel today will be the strength you feel tomorrow.",
-    "You don’t have to be extreme, just consistent.",
-    "Small steps every day lead to big results.",
-    "Storms make trees take deeper roots.",
-    "You are becoming the best version of yourself.",
-    "Push yourself, no one else is going to do it for you."
+    "De los escombros se construyen ciudades",
+    "No te defraudes a ti mismo",
+    "Sedo ante mi Ocaso",
+    "Todos tenemos intenciones en nuestras acciones",
+    "Divide y vencerás",
+    "... no olvides tu látigo",
+    "No le agradezcas a Asclepio",
+    "Tus emociones conectan tu mente con tu cuerpo",
+    "Los parásitos tienen hapetito por ti",
+    "Canta al son de Memphis May Fire con alegría"
 ];
 
 let phraseIndex = 0;
