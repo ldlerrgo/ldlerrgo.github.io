@@ -11,37 +11,40 @@ const phrases = [
     "Canta al son de Memphis May Fire con alegría"
 ];
 
-let phraseIndex = 0;
+let remainingPhrases = [...phrases];
 
 function calculateDaysSince(dateString) {
     const startDate = new Date(dateString);
     const today = new Date();
-
     startDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
-
     const diffTime = today - startDate;
     return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+}
+
+function getRandomPhrase() {
+    if (remainingPhrases.length === 0) remainingPhrases = [...phrases];
+    const index = Math.floor(Math.random() * remainingPhrases.length);
+    return remainingPhrases.splice(index, 1)[0];
 }
 
 function updateContent() {
     const phraseEl = document.getElementById("phrase");
     const counterEl = document.getElementById("counter");
+    const phrase = getRandomPhrase();
 
     phraseEl.classList.remove("fade");
     void phraseEl.offsetWidth;
     phraseEl.classList.add("fade");
-    phraseEl.textContent = phrases[phraseIndex];
+    phraseEl.textContent = phrase;
 
     const days = calculateDaysSince("2025-03-21");
     counterEl.textContent = `${days} día${days !== 1 ? "s" : ""}`;
-
-    phraseIndex = (phraseIndex + 1) % phrases.length;
 }
 
 updateContent();
-
 setInterval(updateContent, 7000);
+
 
 const style = document.createElement("style");
 style.innerHTML = `
