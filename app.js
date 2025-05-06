@@ -7,7 +7,7 @@ const phrases = [
     "... no olvides tu látigo",
     "No le agradezcas a Asclepio",
     "Tus emociones conectan tu mente con tu cuerpo",
-    "Los parásitos tienen hapetito por ti",
+    "Los parásitos tienen apetito por ti",
     "Canta al son de Memphis May Fire con alegría"
 ];
 
