@@ -1,7 +1,7 @@
 const phrases = [
     "De los escombros se construyen ciudades",
     "No te defraudes a ti mismo",
-    "Sedo ante mi Ocaso",
+    "Sedo ante mi Ocaso...",
     "Todos tenemos intenciones en nuestras acciones",
     "Divide y vencerás",
     "... no olvides tu látigo",
@@ -54,3 +54,10 @@ style.innerHTML = `
     }
 `;
 document.head.appendChild(style);
+
+
+
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loader");
+    loader.classList.add("hidden");
+});
