@@ -102,28 +102,73 @@ const chat = [
   { from: "left", author: "Luis ❤️", text: "Te amo ❤️" },
 ];
 
-// Render logic
+// Configuración de la fecha objetivo
+const targetDate = new Date('January 01, 2026 0:00:00').getTime();
+
+// Elementos del DOM
 const container = document.getElementById("chat-container");
 const typing = document.getElementById("typing-indicator");
+const timerDisplay = document.getElementById("timer");
+const countdownScreen = document.getElementById("countdown-container");
+const header = document.getElementById("main-header");
+
+function updateTimer() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+        startStory();
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    timerDisplay.innerText = 
+        (days > 0 ? days + "d " : "") + 
+        String(hours).padStart(2, '0') + ":" + 
+        String(minutes).padStart(2, '0') + ":" + 
+        String(seconds).padStart(2, '0');
+
+    setTimeout(updateTimer, 1000);
+}
+
+function startStory() {
+    countdownScreen.style.display = "none";
+    header.style.display = "flex";
+    container.style.display = "flex";
+    playChat();
+}
 
 async function addMessage(msg) {
+  // Manejo de mensajes de sistema y fechas
   if (msg.from === "center") {
-    const notice = document.createElement("div");
-    notice.classList.add("encrypted-notice");
-    notice.innerText = msg.text;
-    container.appendChild(notice);
+    const div = document.createElement("div");
+    if (msg.type === "date") {
+      div.className = "date-separator";
+      div.innerHTML = `<span>${msg.text}</span>`;
+    } else {
+      div.className = "encrypted-notice";
+      div.innerText = msg.text;
+    }
+    container.appendChild(div);
     container.scrollTop = container.scrollHeight;
-    await new Promise(res => setTimeout(res, 700));
+    await new Promise(res => setTimeout(res, 1000));
     return;
   }
 
+  // Indicador de escribiendo
   typing.style.display = "flex";
-  await new Promise(res => setTimeout(res, 1500 + Math.random() * 2000));
+  // Tiempo de escritura variable según el largo del texto
+  const typingTime = Math.min(Math.max(msg.text.length * 50, 1500), 4000);
+  await new Promise(res => setTimeout(res, typingTime));
   typing.style.display = "none";
 
+  // Burbuja de mensaje
   const bubble = document.createElement("div");
   bubble.classList.add("bubble", msg.from);
-
   bubble.innerHTML = `
     ${msg.author ? `<div class="author">${msg.author}</div>` : ""}
     <div class="text">${msg.text}</div>
@@ -131,13 +176,14 @@ async function addMessage(msg) {
 
   container.appendChild(bubble);
   container.scrollTop = container.scrollHeight;
-  await new Promise(res => setTimeout(res, 200));
+  await new Promise(res => setTimeout(res, 500));
 }
 
 async function playChat() {
-  for (const msg of chat) {
-    await addMessage(msg);
-  }
+    for (const msg of chat) {
+        await addMessage(msg);
+    }
 }
 
-playChat();
+// Iniciar contador
+updateTimer();

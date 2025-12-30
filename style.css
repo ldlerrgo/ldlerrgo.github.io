@@ -137,3 +137,38 @@ header {
   width: 90%;
   line-height: 1.5;
 }
+
+/* Estilo para el contador centrado */
+#countdown-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0b141a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  color: white;
+  text-align: center;
+}
+
+#timer {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #00a884; /* Verde WhatsApp */
+  margin-top: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-text {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+/* Ocultar el contenido inicialmente */
+header, #chat-container, #typing-indicator {
+  display: none;
+}
