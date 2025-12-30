@@ -1,0 +1,139 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #0b141a; /* Fondo oscuro WhatsApp */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header WhatsApp style */
+header {
+  background: #202c33;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #2a3942;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Chat container */
+#chat-container {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Burbujas de chat */
+.bubble {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.bubble.left {
+  background: #202c33;
+  color: white;
+  align-self: flex-start;
+  border-top-left-radius: 4px;
+}
+
+.bubble.right {
+  background: #005c4b;
+  color: white;
+  align-self: flex-end;
+  border-top-right-radius: 4px;
+}
+
+/* Typing indicator */
+#typing-indicator {
+  font-size: 13px;
+  padding: 6px 12px;
+  background: #202c33;
+  color: #8696a0;
+  width: fit-content;
+  border-radius: 10px;
+  margin: 0 16px 16px;
+  display: none;
+  align-self: flex-start;
+}
+
+.dots::after {
+  content: "";
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% { content: ""; }
+  33% { content: "."; }
+  66% { content: ".."; }
+  100% { content: "..."; }
+}
+
+.bubble .author {
+  font-size: 11px;
+  opacity: 0.40;
+  margin-bottom: 2px;
+}
+
+.encrypted-notice {
+  background: #202c33;
+  color: #8696a0;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 7px;
+  text-align: center;
+  margin: 10px auto;
+  width: 85%;
+  line-height: 1.4;
+}
+
+/* Estilo para las fechas centradas */
+.date-separator {
+  text-align: center;
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.date-separator span {
+  background: #1f2c34; /* Un poco más oscuro que el header */
+  color: #8696a0;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+  font-weight: 500;
+}
+
+/* Ajuste para el mensaje de sistema */
+.system-message {
+  font-size: 12px;
+  color: #FFD279; /* Dorado suave */
+  text-align: center;
+  padding: 10px 20px;
+  background: rgba(32, 44, 51, 0.8);
+  border-radius: 8px;
+  margin: 10px auto;
+  width: 90%;
+  line-height: 1.5;
+}
