@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Love Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="hub-bg">
+<div class="hub">
+  <h1>💖 Nuestro Love Hub 💖</h1>
+  <p>Elige una opción</p>
+  <div class="menu">
+    <a href="games/match.html">Matching</a>
+    <a href="games/puzzle.html">Puzzle</a>
+    <a href="games/slots.html">Love Slots</a>
+    <a href="chat/chat2025.html">Chat 2025</a>
+  </div>
+</div>
+<div class="hearts"></div>
+
+<div id="toys">
+  <span class="toy" style="left:10%;top:70%">💖</span>
+  <span class="toy" style="left:80%;top:60%">✨</span>
+  <span class="toy" style="left:40%;top:20%">🌟</span>
+</div>
+<script>
+const hearts=document.querySelector(".hearts");
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*100+"%";
+  h.style.fontSize=14+Math.random()*18+"px";
+  h.textContent=["💖","✨","🌟","💘"][Math.floor(Math.random()*4)];
+  hearts.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+},900);
+
+document.querySelectorAll(".toy").forEach(t=>{
+  t.onclick=()=>{
+    t.classList.add("pop");
+    setTimeout(()=>t.classList.remove("pop"),500);
+  };
+});
+</script>
+
+</body>
+</html>
