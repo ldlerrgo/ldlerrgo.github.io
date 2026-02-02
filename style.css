@@ -444,3 +444,22 @@ select{
 
   .slot-msg{font-size:1.15rem}
 }
+
+
+#mainTitle{
+  white-space: nowrap;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+}
+
+
+
+/* ===== CONFETI ===== */
+#confetti {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  pointer-events:none;
+  z-index:999;
+}
