@@ -471,6 +471,7 @@ select{
 #snakeCanvas{
   background:#020814;
   border-radius:12px;
+  touch-action:none;
 }
 
 .controls{
@@ -524,4 +525,8 @@ select{
 .screen{
   max-height:100vh;
   overflow:hidden;
+}
+
+.snake {
+  overscroll-behavior:contain;
 }

@@ -1,12 +1,24 @@
 /* ===== SNAKE ===== */
 
-let snake, food, dir, snakeTimer, gridSize=16, cell=20;
-let snakeImgs=[];
+/* ===== SNAKE ===== */
+
+let snake, food, dir, snakeTimer;
+let gridSize = 16;
+let cell = 0;
+let snakeImgs = [];
+let snakeCanvas, snakeCtx;
 
 async function initSnake(){
   snakeImgs = await getImages();
-  const canvas = document.getElementById("snakeCanvas");
-  const ctx = canvas.getContext("2d");
+
+  snakeCanvas = document.getElementById("snakeCanvas");
+  snakeCtx = snakeCanvas.getContext("2d");
+
+  // tamaño dinámico real
+  const size = snakeCanvas.getBoundingClientRect().width;
+  snakeCanvas.width = size;
+  snakeCanvas.height = size;
+  cell = size / gridSize;
 
   snake = [{x:8,y:8}];
   dir = {x:1,y:0};
@@ -14,7 +26,9 @@ async function initSnake(){
   updatePreview();
 
   clearInterval(snakeTimer);
-  snakeTimer = setInterval(()=>gameLoop(ctx),160);
+  snakeTimer = setInterval(gameLoop,160);
+
+  initSnakeControls();
 }
 
 function setDir(x,y){
@@ -29,7 +43,7 @@ function spawnFood(){
   };
 }
 
-function gameLoop(ctx){
+function gameLoop(){
   const head = {
     x: snake[0].x + dir.x,
     y: snake[0].y + dir.y
@@ -42,7 +56,7 @@ function gameLoop(ctx){
     snake.some(s=>s.x===head.x && s.y===head.y)
   ){
     clearInterval(snakeTimer);
-    blinkSnake(ctx);
+    blinkSnake();
     return;
   }
 
@@ -56,27 +70,39 @@ function gameLoop(ctx){
     snake.pop();
   }
 
-  drawSnake(ctx);
+  drawSnake();
 }
 
-function drawSnake(ctx){
-  ctx.clearRect(0,0,320,320);
+function drawSnake(){
+  snakeCtx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
 
   // comida
-  ctx.fillStyle="#ff4fd8";
-  ctx.beginPath();
-  ctx.arc(food.x*cell+10, food.y*cell+10, 6, 0, Math.PI*2);
-  ctx.fill();
+  snakeCtx.fillStyle="#ff4fd8";
+  snakeCtx.beginPath();
+  snakeCtx.arc(
+    food.x*cell + cell/2,
+    food.y*cell + cell/2,
+    cell*0.3,
+    0, Math.PI*2
+  );
+  snakeCtx.fill();
 
   // serpiente
-  ctx.fillStyle="#60a5fa";
-  snake.forEach((s,i)=>{
-    ctx.fillRect(s.x*cell, s.y*cell, cell-2, cell-2);
+  snakeCtx.fillStyle="#60a5fa";
+  snake.forEach(s=>{
+    snakeCtx.fillRect(
+      s.x*cell,
+      s.y*cell,
+      cell-2,
+      cell-2
+    );
   });
 }
 
 function updatePreview(flash=false){
   const box = document.getElementById("snakePreview");
+  if(!box || snakeImgs.length===0) return;
+
   const img = rand(snakeImgs);
   box.innerHTML = `<img src="../img/${img}">`;
 
@@ -86,14 +112,14 @@ function updatePreview(flash=false){
   }
 }
 
-function blinkSnake(ctx){
+function blinkSnake(){
   let visible = true;
   let count = 0;
 
   const blink = setInterval(()=>{
     visible = !visible;
-    ctx.clearRect(0,0,320,320);
-    if(visible) drawSnake(ctx);
+    snakeCtx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
+    if(visible) drawSnake();
     count++;
 
     if(count > 10){
@@ -103,32 +129,44 @@ function blinkSnake(ctx){
   },200);
 }
 
-document.addEventListener("keydown", e=>{
-  if(e.key==="ArrowUp") setDir(0,-1);
-  if(e.key==="ArrowDown") setDir(0,1);
-  if(e.key==="ArrowLeft") setDir(-1,0);
-  if(e.key==="ArrowRight") setDir(1,0);
-});
+/* ===== CONTROLES ===== */
 
+function initSnakeControls(){
 
-let touchStartX=0, touchStartY=0;
+  // teclado
+  document.addEventListener("keydown", e=>{
+    if(e.key==="ArrowUp") setDir(0,-1);
+    if(e.key==="ArrowDown") setDir(0,1);
+    if(e.key==="ArrowLeft") setDir(-1,0);
+    if(e.key==="ArrowRight") setDir(1,0);
+  });
 
-document.getElementById("snakeCanvas").addEventListener("touchstart", e=>{
-  const t=e.touches[0];
-  touchStartX=t.clientX;
-  touchStartY=t.clientY;
-});
+  // swipe
+  let touchStartX=0, touchStartY=0;
 
-document.getElementById("snakeCanvas").addEventListener("touchend", e=>{
-  const t=e.changedTouches[0];
-  const dx=t.clientX-touchStartX;
-  const dy=t.clientY-touchStartY;
+  snakeCanvas.addEventListener("touchstart", e=>{
+    e.preventDefault();
+    const t=e.touches[0];
+    touchStartX=t.clientX;
+    touchStartY=t.clientY;
+  },{passive:false});
 
-  if(Math.abs(dx)>Math.abs(dy)){
-    if(dx>0) setDir(1,0);
-    else setDir(-1,0);
-  }else{
-    if(dy>0) setDir(0,1);
-    else setDir(0,-1);
-  }
-});
+  snakeCanvas.addEventListener("touchmove", e=>{
+    e.preventDefault();
+  },{passive:false});
+
+  snakeCanvas.addEventListener("touchend", e=>{
+    const t=e.changedTouches[0];
+    const dx=t.clientX-touchStartX;
+    const dy=t.clientY-touchStartY;
+
+    if(Math.abs(dx)>Math.abs(dy)){
+      if(dx>0) setDir(1,0);
+      else setDir(-1,0);
+    }else{
+      if(dy>0) setDir(0,1);
+      else setDir(0,-1);
+    }
+  },{passive:false});
+}
+
