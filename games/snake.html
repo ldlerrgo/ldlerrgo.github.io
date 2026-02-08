@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body onload="initSnake()" class="snake">
+<div class="screen">
+
+<h2>Snake 🐍</h2>
+<a href="./games.html" class="back">⬅ Volver</a>
+
+<div class="slot" id="snakePreview"></div>
+
+<div class="game-box">
+  <canvas id="snakeCanvas" width="320" height="320"></canvas>
+</div>
+
+<div class="controls">
+  <button onclick="setDir(0,-1)">⬆</button>
+    <div class="controls-mid">
+    <button onclick="setDir(-1,0)">⬅</button>
+    <div class="spacer"></div>
+    <button onclick="setDir(1,0)">➡</button>
+    </div>
+  <button onclick="setDir(0,1)">⬇</button>
+</div>
+
+<div id="snakeMsg"></div>
+
+</div>
+<script src="../main.js"></script>
+<script src="./app/snake.js"></script>
+</body>
+</html>
