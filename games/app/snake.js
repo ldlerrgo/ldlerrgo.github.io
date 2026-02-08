@@ -102,3 +102,33 @@ function blinkSnake(ctx){
     }
   },200);
 }
+
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowUp") setDir(0,-1);
+  if(e.key==="ArrowDown") setDir(0,1);
+  if(e.key==="ArrowLeft") setDir(-1,0);
+  if(e.key==="ArrowRight") setDir(1,0);
+});
+
+
+let touchStartX=0, touchStartY=0;
+
+document.getElementById("snakeCanvas").addEventListener("touchstart", e=>{
+  const t=e.touches[0];
+  touchStartX=t.clientX;
+  touchStartY=t.clientY;
+});
+
+document.getElementById("snakeCanvas").addEventListener("touchend", e=>{
+  const t=e.changedTouches[0];
+  const dx=t.clientX-touchStartX;
+  const dy=t.clientY-touchStartY;
+
+  if(Math.abs(dx)>Math.abs(dy)){
+    if(dx>0) setDir(1,0);
+    else setDir(-1,0);
+  }else{
+    if(dy>0) setDir(0,1);
+    else setDir(0,-1);
+  }
+});
