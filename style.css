@@ -678,6 +678,7 @@ body.body-2048 {
     justify-content: center;
     min-height: 100vh;
     margin: 0;
+    touch-action:none;
 }
 
 #g2k-board {
