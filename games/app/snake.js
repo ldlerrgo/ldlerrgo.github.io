@@ -1,6 +1,13 @@
 /* ===== SNAKE ===== */
+if (window.location.pathname.includes('pingpong.html')) {
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const isSmallScreen = window.innerWidth <= 1024;
 
-/* ===== SNAKE ===== */
+    if (!isTouch && !isSmallScreen) {
+        alert("Este juego solo está disponible en dispositivos móviles 📱");
+        window.location.href = "../index.html"; 
+    }
+}
 
 let snake, food, dir, snakeTimer;
 let gridSize = 16;
