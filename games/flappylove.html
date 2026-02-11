@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+  <title>Flappy Love</title>
+</head>
+
+<body class="flappylove" onload="initFlappyLove()">
+  <div class="fl-love-screen">
+
+    <h2 id="mainTitle">Flappy Love 🐧</h2>
+    <a href="./games.html" class="back">⬅ Volver</a>
+
+    <div class="fl-love-shell">
+      <div class="fl-love-topbar">
+        <div class="fl-love-pill">
+          <span>Puntos</span>
+          <strong id="fl-love-score">0</strong>
+        </div>
+        <div class="fl-love-pill">
+          <span>Mejor</span>
+          <strong id="fl-love-best">0</strong>
+        </div>
+        <button id="fl-love-mini-restart" type="button" class="fl-love-mini-btn" aria-label="Reiniciar">🔄</button>
+      </div>
+
+      <div id="fl-love-stage" class="fl-love-stage">
+        <!-- Nubes (como al inicio) -->
+        <div class="fl-love-cloud fl-love-cloud-1"></div>
+        <div class="fl-love-cloud fl-love-cloud-2"></div>
+        <div class="fl-love-cloud fl-love-cloud-3"></div>
+
+        <div id="fl-love-obstacles" class="fl-love-obstacles"></div>
+
+        <!-- Pingüino (sin imágenes) -->
+        <div id="fl-love-bird" class="fl-love-penguin" aria-hidden="true">
+          <div class="fl-love-penguin-body">
+            <div class="fl-love-penguin-belly"></div>
+
+            <div class="fl-love-penguin-eye fl-love-penguin-eye-l"></div>
+            <div class="fl-love-penguin-eye fl-love-penguin-eye-r"></div>
+            <div class="fl-love-penguin-brow fl-love-penguin-brow-l"></div>
+            <div class="fl-love-penguin-brow fl-love-penguin-brow-r"></div>
+
+            <div class="fl-love-penguin-beak"></div>
+
+            <div class="fl-love-penguin-flipper fl-love-penguin-flipper-l"></div>
+            <div class="fl-love-penguin-flipper fl-love-penguin-flipper-r"></div>
+          </div>
+
+          <div class="fl-love-penguin-feet">
+            <div class="fl-love-penguin-foot fl-love-penguin-foot-l"></div>
+            <div class="fl-love-penguin-foot fl-love-penguin-foot-r"></div>
+          </div>
+        </div>
+
+        <div class="fl-love-ground"></div>
+
+        <div id="fl-love-overlay" class="fl-love-overlay show">
+          <div class="fl-love-overlay-card">
+            <h3 id="fl-love-title">Toca(me) para jugar</h3>
+            <p id="fl-love-sub"><br></p>
+            <button id="fl-love-start" type="button">▶ Jugar</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="fl-love-help"><br></p>
+    </div>
+  </div>
+
+  <script src="./app/flappylove.js"></script>
+</body>
+</html>
