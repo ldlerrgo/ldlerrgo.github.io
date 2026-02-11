@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+  <title>Whack-a-Mole</title>
+</head>
+
+<body class="wackamole" onload="initWhackAMole()">
+  <div class="wam-screen">
+    <h2>Whack-a-Mole 🔨</h2>
+    <a href="./games.html" class="back">⬅ Volver</a>
+
+    <div class="wam-shell">
+      <div class="wam-topbar">
+        <div class="wam-pill">
+          <span>Puntos</span>
+          <strong id="wam-score">0</strong>
+        </div>
+
+        <div class="wam-pill">
+          <span>Mejor</span>
+          <strong id="wam-best">0</strong>
+        </div>
+
+        <div class="wam-lives" id="wam-lives" aria-label="Vidas"></div>
+
+        <button id="wam-mini-restart" class="wam-mini-btn" type="button" aria-label="Reiniciar">🔄</button>
+      </div>
+
+      <div id="wam-stage" class="wam-stage" aria-label="Tablero Whack-a-Mole"></div>
+
+      <div id="wam-overlay" class="wam-overlay show">
+        <div class="wam-overlay-card">
+          <h3 id="wam-title">Toca para jugar</h3>
+          <p id="wam-sub">Toca imágenes para sumar. 💣 quita vida.</p>
+          <button id="wam-start" type="button">▶ Jugar</button>
+        </div>
+      </div>
+
+      <p class="wam-help"></p>
+    </div>
+
+  </div>
+
+  <script src="../img/imgs.js"></script>
+  <script src="./app/wackamole.js"></script>
+</body>
+</html>
