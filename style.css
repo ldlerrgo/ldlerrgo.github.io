@@ -631,7 +631,7 @@ select{
     border-radius: 16px;
     text-decoration: none;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: .8rem;
     color: var(--text);
     background: var(--hub-card-bg);
     border: 1px solid var(--hub-border);

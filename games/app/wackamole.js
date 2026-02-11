@@ -16,9 +16,12 @@ async function initWhackAMole() {
     return;
   }
 
-  let imgs = [];
-  try { if (typeof getImages === "function") imgs = await getImages(); } catch (_) {}
-  if (!Array.isArray(imgs)) imgs = [];
+    let imgs = [];
+    try { if (typeof getImages === "function") imgs = await getImages(); } catch (_) {}
+    if (!Array.isArray(imgs)) imgs = [];
+
+imgs = pickRandomSubset(imgs, 10);
+
 
   const BEST_KEY = "wamBestScore_v4";
 
@@ -354,4 +357,13 @@ function getUpTime(score) {
 
 function randInt(a, b) {
   return Math.floor(a + Math.random() * (b - a + 1));
+}
+
+function pickRandomSubset(arr, n){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a.slice(0, Math.min(n, a.length));
 }
