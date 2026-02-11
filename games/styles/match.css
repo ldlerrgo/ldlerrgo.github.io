@@ -1,0 +1,33 @@
+/* Matching */
+body.match{background:radial-gradient(circle at top,#2f5bd8,#0b1d3a,#000814)}
+
+.card{aspect-ratio:1;perspective:800px}
+.card-inner{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .6s;
+}
+.card.flipped .card-inner{transform:rotateY(180deg)}
+.card-face{
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  backface-visibility:hidden;
+  overflow:hidden;
+}
+.card-front{transform:rotateY(180deg)}
+.card-front img{width:100%;height:100%;object-fit:cover}
+.card-back{
+  background:linear-gradient(135deg,#1e3a8a,#2563eb,#5b21b6);
+  background-size:300% 300%;
+  animation:glowShift 6s ease infinite;
+  box-shadow:0 0 6px rgba(99,102,241,.45), inset 0 0 8px rgba(255,255,255,.08);
+}
+
+@keyframes glowShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}

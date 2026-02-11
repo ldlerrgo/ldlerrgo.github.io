@@ -1,0 +1,48 @@
+/* Ping Pong */
+.pingpong{
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  background:linear-gradient(180deg, #111, #1a1a1a, #0a0a0a);
+  font-family:system-ui;
+  touch-action:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+}
+
+#pongCanvas{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+#backBtn{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:8px 24px;
+
+  font-family:var(--ui-font);
+  font-size:0.9rem;
+  font-weight:800;
+  color:rgba(255, 255, 255, 0.92);
+  text-decoration:none;
+
+  background:rgba(255, 255, 255, 0.06);
+  border:1px solid rgba(255, 255, 255, 0.22);
+  border-radius:999px;
+
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 6px 14px rgba(0, 0, 0, 0.18);
+
+  cursor:pointer;
+  z-index:10;
+}

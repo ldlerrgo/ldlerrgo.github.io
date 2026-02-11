@@ -1,0 +1,6 @@
+/* Puzzle */
+body.puzzle{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364)}
+
+#puzzle{display:grid;gap:3px}
+.tile{aspect-ratio:1;transition:transform .25s}
+.empty{background:none}
