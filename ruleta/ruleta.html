@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ruleta de citas</title>
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="./ruleta.css" />
+</head>
+
+<body class="rt-body">
+  <main class="rt-main">
+    <section class="rt-stage" aria-label="Ruleta de citas">
+      <a class="back rt-back" href="../index.html">⬅ Volver</a>
+
+      <div class="rt-wheel-stand">
+        <div class="rt-wheel-wrap" id="rtWheelWrap" aria-label="Ruleta (toca o presiona espacio)">
+          <canvas id="rtCanvas" aria-label="Ruleta"></canvas>
+          <div class="rt-pointer" id="rtPointer" aria-hidden="true"></div>
+        </div>
+
+        <div class="rt-stand" aria-hidden="true"></div>
+        <div class="rt-stand-shadow" aria-hidden="true"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./ruleta.js"></script>
+</body>
+</html>
