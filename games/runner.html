@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Runner</title>
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="./styles/runner.css" />
+</head>
+
+<body class="rr-body">
+  <!-- Fondos (crossfade) -->
+  <div class="rr-bg rr-bg-light" aria-hidden="true"></div>
+  <div class="rr-bg rr-bg-dark" aria-hidden="true"></div>
+
+  <!-- Canvas del juego -->
+  <canvas id="rr-canvas" aria-label="Runner canvas"></canvas>
+
+  <!-- HUD -->
+  <header class="rr-hud">
+    <a class="back rr-back" href="./games.html">⬅ Volver</a>
+
+    <div class="rr-meters" aria-live="polite">
+      <span>Distancia</span>
+      <strong id="rr-distance">0</strong>
+    </div>
+  </header>
+
+  <!-- Overlay inicio -->
+  <div id="rr-start" class="rr-overlay rr-overlay-start show" role="dialog" aria-modal="true">
+    <div class="rr-card">
+      <h1 class="rr-title">Runner ⬛</h1>
+      <button id="rr-play" type="button">▶ Jugar</button>
+      <p class="rr-mini">Ponte a prueba</p>
+    </div>
+  </div>
+
+  <!-- Overlay game over -->
+  <div id="rr-over" class="rr-overlay rr-overlay-over" role="dialog" aria-modal="true">
+    <div class="rr-card rr-over-card">
+      <h2 class="rr-over-title">Apestas...</h2>
+      <p class="rr-over-sub">Distancia: <strong id="rr-final">0</strong></p>
+
+      <div class="rr-actions">
+        <button id="rr-retry" type="button">🔄 Reintentar</button>
+      </div>
+
+      <p class="rr-mini">Pero te amo, mi amor</p>
+    </div>
+  </div>
+
+  <script src="./app/runner.js"></script>
+</body>
+</html>
