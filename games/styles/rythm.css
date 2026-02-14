@@ -1,0 +1,298 @@
+/* Variables para facilitar cambios de color */
+:root {
+    --bg-dark: #0a0a0f;
+    --bg-grad-1: #1a0b2e;
+    --bg-grad-2: #2b0f18;
+    --accent: #ff4fd8;
+    --lane-border: rgba(255, 255, 255, 0.1);
+}
+
+.rythm-body {
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-grad-1), var(--bg-grad-2), var(--bg-dark));
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    overflow: hidden;
+    touch-action: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 0;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.game-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* --- HUD (Interfaz Superior) --- */
+.rythm-hud {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.back {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background: rgba(255,255,255,0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.wam-lives {
+    display: flex;
+    gap: 5px;
+}
+
+.wam-life {
+    font-size: 1.8rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wam-life.on {
+    color: #ff4757;
+    text-shadow: 0 0 10px #ff4757;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.wam-life.off {
+    color: #555;
+    transform: scale(0.8);
+    opacity: 0.5;
+}
+
+.score-box {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Efecto de daño */
+.shake {
+    animation: shakeAnim 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shakeAnim {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* --- CARRILES --- */
+.lanes {
+    flex: 1;
+    display: flex;
+    width: min(100%, 500px);
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(20, 10, 30, 0.5));
+    border-left: 2px solid var(--lane-border);
+    border-right: 2px solid var(--lane-border);
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+.lane {
+    flex: 1;
+    height: 100%;
+    border-right: 1px solid var(--lane-border);
+    position: relative;
+    overflow: hidden; 
+}
+.lane:last-child { border-right: none; }
+
+.key-hint {
+    position: absolute;
+    bottom: 120px; /* Subido para que no estorbe la hit zone */
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.1);
+    font-weight: bold;
+    font-size: 2rem;
+    pointer-events: none;
+}
+
+/* Efecto visual al tocar el carril */
+.lane-active {
+    background: linear-gradient(to top, rgba(255, 79, 216, 0.15), transparent);
+}
+
+/* --- ZONA DE IMPACTO (HIT ZONE) --- */
+.hit-zone {
+    position: absolute;
+    /* CORRECCIÓN: Zona baja para los pulgares */
+    bottom: 5%; 
+    width: 100%;
+    /* CORRECCIÓN: Altura aumentada para coincidir con notas grandes */
+    height: 100px; 
+    
+    /* Estilo visual de la barra */
+    background: linear-gradient(90deg, transparent, rgba(255, 79, 216, 0.15), transparent);
+    border-top: 2px solid rgba(255, 79, 216, 0.8);
+    border-bottom: 2px solid rgba(255, 79, 216, 0.8);
+    box-shadow: 0 0 20px rgba(255, 79, 216, 0.4);
+    
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* --- NOTAS (TILES) --- */
+.tile {
+    position: absolute;
+    left: 5%;
+    width: 90%;
+    /* CORRECCIÓN: Notas altas para fácil pulsación */
+    height: 100px; 
+    
+    background: #fff;
+    border-radius: 12px;
+    top: -150px; /* Nace fuera de pantalla */
+    z-index: 10;
+    
+    /* Estilo Neon */
+    background: linear-gradient(180deg, #ff9ff3 0%, #f368e0 100%);
+    box-shadow: 0 0 15px #f368e0, inset 0 0 10px rgba(255,255,255,0.8);
+    
+    /* Centrado vertical respecto al punto lógico */
+    transform: translateY(-50%); 
+    pointer-events: none; 
+}
+
+/* Estela de la nota */
+.tile::after {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Sale desde arriba de la nota */
+    left: 10%;
+    width: 80%;
+    height: 80px;
+    background: linear-gradient(to top, rgba(243, 104, 224, 0.4), transparent);
+    border-radius: 10px 10px 0 0;
+}
+
+/* Efecto al acertar */
+.hit-effect {
+    transform: translateY(-50%) scale(1.3);
+    filter: brightness(2);
+    opacity: 0;
+    transition: all 0.1s ease-out;
+}
+
+/* --- GAME OVER & COUNTDOWN --- */
+.countdown-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 0 30px var(--accent);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.count-pop {
+    animation: countAnim 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes countAnim {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    60% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* Overlay de Pantalla Final */
+.rr-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.rr-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+    background: rgba(10, 10, 20, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.rr-card {
+    background: rgba(30, 20, 40, 0.95);
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 0 40px rgba(255, 79, 216, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+.rr-overlay.show .rr-card {
+    transform: translateY(0);
+}
+
+.rr-over-title {
+    color: white;
+    margin-top: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.rr-over-sub {
+    color: #ccc;
+    font-size: 1.2rem;
+}
+
+.rr-actions button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 79, 216, 0.4);
+    transition: transform 0.1s;
+}
+
+.rr-actions button:active {
+    transform: scale(0.95);
+}
+
+.rr-mini {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+}
+
+/* Ocultar pistas de teclado en móvil */
+@media (max-width: 768px) {
+    .key-hint { display: none; }
+}

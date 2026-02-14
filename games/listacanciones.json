@@ -1,0 +1,9 @@
+[
+  {
+    "id": "heaven",
+    "titulo": "Heaven",
+    "autor": "Bryan Adams",
+    "beatmap": "./beatmaps/Heaven.json",
+    "audio": "../audio/Heaven.ogg"
+  }
+]

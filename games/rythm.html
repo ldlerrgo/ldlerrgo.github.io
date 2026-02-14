@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Rythm Game 🎵</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="./styles/rythm.css">
+</head>
+<body class="rythm-body">
+    <div class="game-container">
+        <div id="countdown" class="countdown-overlay"></div>
+
+        <header class="rythm-hud">
+            <a href="./rythm-hub.html" class="back">⬅ Volver</a>
+            <div class="wam-lives" id="lives">
+                <span class="wam-life on">❤</span>
+                <span class="wam-life on">❤</span>
+                <span class="wam-life on">❤</span>
+            </div>
+            <div class="score-box">
+                <span id="score">000000</span>
+            </div>
+        </header>
+
+        <div class="lanes">
+            <div class="lane" id="lane-0"><span class="key-hint">Q</span></div>
+            <div class="lane" id="lane-1"><span class="key-hint">W</span></div>
+            <div class="lane" id="lane-2"><span class="key-hint">E</span></div>
+            <div class="hit-zone"></div>
+        </div>
+
+        <div id="game-over" class="rr-overlay rr-overlay-over">
+            <div class="rr-card rr-over-card">
+                <h2 class="rr-over-title">¡Se acabó!</h2>
+                <p class="rr-over-sub">Puntos: <strong id="final-score">0</strong></p><br>
+                <div class="rr-actions">
+                    <button id="retry-btn">🔄 Reintentar</button>
+                </div>
+                <p class="rr-mini">¡No te rindas, mi amor!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="./app/rythm.js"></script>
+</body>
+</html>
