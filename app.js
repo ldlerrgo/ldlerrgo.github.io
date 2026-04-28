@@ -33,7 +33,6 @@ const playBtn = document.getElementById("play");
 const backHomeBtn = document.getElementById("backHome");
 const againBtn = document.getElementById("again");
 const closeOverlayBtn = document.getElementById("closeOverlay");
-const bankInfo = document.getElementById("bankInfo");
 const loadingOverlay = document.getElementById("loadingOverlay");
 const loadingProgress = document.getElementById("loadingProgress");
 const loadingPercent = document.getElementById("loadingPercent");
@@ -90,8 +89,6 @@ async function ensureWordsWithLoading(){
 }
 
 async function loadWords(){
-  setBankInfo("Cargando banco amplio de palabras");
-
   const localWords =
     Array.isArray(window.WORDS_BANK)
       ? window.WORDS_BANK
@@ -143,8 +140,6 @@ async function loadWords(){
   if(!validWords.size){
     validWords = new Set(answerWords);
   }
-
-  setBankInfo(`${validWords.size.toLocaleString("es-ES")} palabras disponibles`);
 }
 
 async function fetchWordsFromSource(source){
@@ -185,12 +180,6 @@ function extractWords(data){
   }
 
   return [];
-}
-
-function setBankInfo(text){
-  if(bankInfo){
-    bankInfo.textContent = text;
-  }
 }
 
 function setLoadingProgress(value){
@@ -814,11 +803,6 @@ document.addEventListener("gesturestart", event => {
 });
 
 playBtn.addEventListener("click", showGame);
-
-newGameBtn.addEventListener("click", async () => {
-  await ensureWordsWithLoading();
-  startGame();
-});
 
 againBtn.addEventListener("click", async () => {
   await ensureWordsWithLoading();
