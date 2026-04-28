@@ -11,12 +11,7 @@ window.WORD_SOURCES = [
   },
   {
     type:"json",
-    url:"https://random-word-api.herokuapp.com/word?lang=es&number=1500&length=5",
-    timeout:5000
-  },
-  {
-    type:"json",
-    url:"https://random-word-api.vercel.app/api?words=1500&length=5",
+    url:"https://random-word-api.herokuapp.com/word?lang=es&number=2500",
     timeout:5000
   },
   {

@@ -1,5 +1,19 @@
 const rows = 6;
-const cols = 5;
+let cols = 5;
+
+const wordLengthWeights = [
+  { length:4, weight:20 },
+  { length:5, weight:50 },
+  { length:6, weight:20 },
+  { length:7, weight:10 }
+];
+
+const fallbackWords = [
+  "casa","mesa","luna","sola","vida","roca","mano","palo","nube","risa",
+  "cielo","campo","verde","playa","mundo","clase","papel","datos","valor","lugar",
+  "camino","ciudad","puente","fuerte","grande","madres","padres","amigos","tiempo","dinero",
+  "trabajo","escuela","ventana","persona","familia","palabra","mañana","domingo","calidad","lectura"
+];
 
 let validWords = new Set();
 let answerWords = [];
@@ -20,6 +34,7 @@ let loadingValue = 0;
 
 const board = document.getElementById("board");
 const keyboard = document.getElementById("keyboard");
+const leftPanel = document.querySelector(".left-panel");
 const home = document.getElementById("home");
 const game = document.getElementById("game");
 const statusBox = document.getElementById("status");
@@ -54,7 +69,7 @@ function cleanWordList(list){
   return [...new Set(
     list
       .map(normalize)
-      .filter(word => word.length === 5)
+      .filter(word => word.length >= 4 && word.length <= 7)
       .filter(word => /^[a-zñ]+$/.test(word))
   )];
 }
@@ -117,29 +132,30 @@ async function loadWords(){
 
   const cleanExternal = cleanWordList(externalWords);
   const cleanLocal = cleanWordList(localWords);
-  const merged = cleanWordList([...cleanExternal, ...cleanLocal]);
+  const cleanFallback = cleanWordList(fallbackWords);
+  const merged = cleanWordList([...cleanExternal, ...cleanLocal, ...cleanFallback]);
 
-  if(merged.length){
-    validWords = new Set(merged);
-  }
+  validWords = new Set(merged);
+  answerWords = merged;
 
-  if(cleanExternal.length >= 200){
-    answerWords = cleanExternal;
-  }else{
-    answerWords = cleanLocal;
-  }
+  wordLengthWeights.forEach(item => {
+    const hasLength = answerWords.some(word => word.length === item.length);
+
+    if(!hasLength){
+      cleanFallback
+        .filter(word => word.length === item.length)
+        .forEach(word => {
+          validWords.add(word);
+          answerWords.push(word);
+        });
+    }
+  });
+
+  answerWords = [...new Set(answerWords)];
 
   if(!answerWords.length){
-    answerWords = cleanWordList([
-      "cielo","campo","verde","playa","mundo","clase","papel","datos",
-      "valor","lugar","banco","calor","norte","vista","salud","llave"
-    ]);
-  }
-
-  answerWords.forEach(word => validWords.add(word));
-
-  if(!validWords.size){
-    validWords = new Set(answerWords);
+    answerWords = cleanFallback;
+    validWords = new Set(cleanFallback);
   }
 }
 
@@ -199,7 +215,7 @@ function setLoadingProgress(value){
     if(progress < 35){
       loadingText.textContent = "Conectando con las fuentes de palabras...";
     }else if(progress < 70){
-      loadingText.textContent = "Filtrando palabras de cinco letras...";
+      loadingText.textContent = "Filtrando palabras compatibles...";
     }else if(progress < 93){
       loadingText.textContent = "Optimizando el banco para la partida...";
     }else{
@@ -256,9 +272,37 @@ function saveUsed(word){
   sessionStorage.setItem("usedWordleWords", JSON.stringify([...new Set(used)]));
 }
 
+function pickWeightedLength(){
+  const availableLengths = wordLengthWeights.filter(item =>
+    answerWords.some(word => word.length === item.length)
+  );
+
+  const totalWeight = availableLengths.reduce((sum,item) => sum + item.weight,0);
+  let random = Math.random() * totalWeight;
+
+  for(const item of availableLengths){
+    random -= item.weight;
+
+    if(random <= 0){
+      return item.length;
+    }
+  }
+
+  return availableLengths[0]?.length || 5;
+}
+
 function pickWord(){
   let used = usedWords();
-  let available = answerWords.filter(word => !used.includes(word));
+  let targetLength = pickWeightedLength();
+  let available = answerWords.filter(word => word.length === targetLength && !used.includes(word));
+
+  if(!available.length){
+    available = answerWords.filter(word => word.length === targetLength);
+  }
+
+  if(!available.length){
+    available = answerWords.filter(word => !used.includes(word));
+  }
 
   if(!available.length){
     sessionStorage.removeItem("usedWordleWords");
@@ -284,13 +328,44 @@ function emptyMatrix(value = ""){
   return Array.from({length:rows}, () => Array(cols).fill(value));
 }
 
+function updateBoardSizing(){
+  if(!leftPanel) return;
+
+  const isMobile = window.innerWidth <= 930;
+  const isShortDesktop = window.innerHeight <= 690 && window.innerWidth > 930;
+  const isShortMobile = window.innerHeight <= 760 && window.innerWidth <= 930;
+
+  const gap = isShortMobile ? 3 : isMobile ? 4 : isShortDesktop ? 7 : 9;
+  const maxTile = isMobile ? 44 : isShortDesktop ? 54 : 62;
+  const minTile = isMobile ? 26 : 32;
+
+  const panelStyle = getComputedStyle(leftPanel);
+  const paddingX = parseFloat(panelStyle.paddingLeft) + parseFloat(panelStyle.paddingRight);
+  const paddingY = parseFloat(panelStyle.paddingTop) + parseFloat(panelStyle.paddingBottom);
+  const statusSpace = isMobile ? 26 : 56;
+
+  const availableWidth = Math.max(0,leftPanel.clientWidth - paddingX - 14);
+  const availableHeight = Math.max(0,leftPanel.clientHeight - paddingY - statusSpace);
+
+  const tileByWidth = (availableWidth - gap * (cols - 1)) / cols;
+  const tileByHeight = (availableHeight - gap * (rows - 1)) / rows;
+  const tileSize = Math.floor(Math.max(minTile,Math.min(maxTile,tileByWidth,tileByHeight)));
+
+  document.documentElement.style.setProperty("--tile-size", `${tileSize}px`);
+  document.documentElement.style.setProperty("--tile-gap", `${gap}px`);
+  document.documentElement.style.setProperty("--word-cols", cols);
+}
+
 function startGame(){
   if(!answerWords.length){
-    answerWords = cleanWordList(["cielo","campo","verde","playa","mundo","clase","papel","datos","valor","lugar"]);
+    answerWords = cleanWordList(fallbackWords);
     validWords = new Set(answerWords);
   }
 
   answer = pickWord();
+  cols = answer.length;
+  document.documentElement.style.setProperty("--word-cols", cols);
+
   activeRow = 0;
   activeCol = 0;
   grid = emptyMatrix("");
@@ -309,7 +384,11 @@ function startGame(){
 
   renderBoard();
   renderKeyboard();
-  setActiveTile();
+
+  requestAnimationFrame(() => {
+    updateBoardSizing();
+    setActiveTile();
+  });
 }
 
 function renderBoard(){
@@ -548,7 +627,7 @@ function submitGuess(){
   const guess = grid[activeRow].join("").toLowerCase();
 
   if(guess.length < cols){
-    showMessage("Completa las cinco letras.");
+    showMessage(`Completa las ${cols} letras.`);
     return;
   }
 
@@ -658,30 +737,12 @@ function showResult(win,attempts){
 
   if(win){
     const messages = {
-      1:[
-        "Excelente inicio",
-        "Acertaste la palabra en el primer intento. Fue una jugada muy precisa."
-      ],
-      2:[
-        "Muy buena partida",
-        "Resolviste la palabra en solo dos intentos. Leíste muy bien las pistas."
-      ],
-      3:[
-        "Gran resultado",
-        "Encontraste la palabra con rapidez y buen criterio. Vas muy bien."
-      ],
-      4:[
-        "Bien jugado",
-        "Usaste las pistas con calma y lograste llegar a la respuesta correctamente."
-      ],
-      5:[
-        "Buena recuperación",
-        "La partida se puso más difícil, pero lograste encontrar la palabra a tiempo."
-      ],
-      6:[
-        "Lo lograste",
-        "Llegaste al último intento y encontraste la palabra. Fue una partida muy cerrada."
-      ]
+      1:["Excelente inicio","Acertaste la palabra en el primer intento. Fue una jugada muy precisa."],
+      2:["Muy buena partida","Resolviste la palabra en solo dos intentos. Leíste muy bien las pistas."],
+      3:["Gran resultado","Encontraste la palabra con rapidez y buen criterio. Vas muy bien."],
+      4:["Bien jugado","Usaste las pistas con calma y lograste llegar a la respuesta correctamente."],
+      5:["Buena recuperación","La partida se puso más difícil, pero lograste encontrar la palabra a tiempo."],
+      6:["Lo lograste","Llegaste al último intento y encontraste la palabra. Fue una partida muy cerrada."]
     };
 
     overlayTitle.textContent = messages[attempts][0];
@@ -830,3 +891,13 @@ backHomeBtn.addEventListener("click", () => {
 
 bombBtn.addEventListener("click", useBomb);
 lensBtn.addEventListener("click", useLens);
+
+window.addEventListener("resize", () => {
+  updateBoardSizing();
+});
+
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize", () => {
+    updateBoardSizing();
+  });
+}
