@@ -737,12 +737,12 @@ function showResult(win,attempts){
 
   if(win){
     const messages = {
-      1:["Excelente inicio","Acertaste la palabra en el primer intento. Fue una jugada muy precisa."],
-      2:["Muy buena partida","Resolviste la palabra en solo dos intentos. Leíste muy bien las pistas."],
-      3:["Gran resultado","Encontraste la palabra con rapidez y buen criterio. Vas muy bien."],
-      4:["Bien jugado","Usaste las pistas con calma y lograste llegar a la respuesta correctamente."],
-      5:["Buena recuperación","La partida se puso más difícil, pero lograste encontrar la palabra a tiempo."],
-      6:["Lo lograste","Llegaste al último intento y encontraste la palabra. Fue una partida muy cerrada."]
+      1:["¡Perfecto!","Acertaste la palabra a la primera... ¡Qué suerte!"],
+      2:["¡Increíble!","Resolviste la palabra en solo dos intentos. ¡Felicidades!"],
+      3:["¡Genial!","¡Lo hiciste muy bien! Solo tres intentos."],
+      4:["¡Wow!","Lograste encontrar la palabra. ¡Felicidades!"],
+      5:["Bien","Hubo tensión... pero lo conseguiste."],
+      6:["Ufff...","Estuvo cerca... ¡pero lo lograste!"]
     };
 
     overlayTitle.textContent = messages[attempts][0];
