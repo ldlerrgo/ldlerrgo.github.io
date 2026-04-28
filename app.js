@@ -749,7 +749,7 @@ function showResult(win,attempts){
     overlayText.textContent = messages[attempts][1];
   }else{
     overlayTitle.textContent = "Buen intento";
-    overlayText.textContent = "Esta vez no se encontró la palabra, pero puedes intentarlo nuevamente con una palabra distinta.";
+    overlayText.textContent = "Esta vez no encontraste la palabra... pero puedes intentarlo nuevamente.";
   }
 }
 
