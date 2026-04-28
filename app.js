@@ -33,6 +33,7 @@ const playBtn = document.getElementById("play");
 const backHomeBtn = document.getElementById("backHome");
 const againBtn = document.getElementById("again");
 const closeOverlayBtn = document.getElementById("closeOverlay");
+const submitGuessBtn = document.getElementById("submitGuess");
 const loadingOverlay = document.getElementById("loadingOverlay");
 const loadingProgress = document.getElementById("loadingProgress");
 const loadingPercent = document.getElementById("loadingPercent");
@@ -356,7 +357,7 @@ function renderKeyboard(){
   const keyboardRows = [
     ["Q","W","E","R","T","Y","U","I","O","P"],
     ["A","S","D","F","G","H","J","K","L","Ñ"],
-    ["ENTER","Z","X","C","V","B","N","M","BORRAR"]
+    ["SPACER","Z","X","C","V","B","N","M","BORRAR"]
   ];
 
   keyboard.innerHTML = "";
@@ -366,7 +367,14 @@ function renderKeyboard(){
     row.className = "key-row";
 
     line.forEach(value => {
-      const label = value === "ENTER" ? "Enter" : value === "BORRAR" ? "Borrar" : value;
+      if(value === "SPACER"){
+        const spacer = document.createElement("div");
+        spacer.className = "key wide spacer";
+        row.appendChild(spacer);
+        return;
+      }
+
+      const label = value === "BORRAR" ? "Borrar" : value;
       row.appendChild(keyButton(label,value,value.length > 1));
     });
 
@@ -377,10 +385,6 @@ function renderKeyboard(){
 function keyButton(label,value,wide = false){
   const btn = document.createElement("button");
   btn.className = "key" + (wide ? " wide" : "");
-
-  if(value === "ENTER"){
-    btn.classList.add("enter");
-  }
 
   if(value === "BORRAR"){
     btn.classList.add("delete");
@@ -803,6 +807,10 @@ document.addEventListener("gesturestart", event => {
 });
 
 playBtn.addEventListener("click", showGame);
+
+submitGuessBtn.addEventListener("click", () => {
+  handleInput("ENTER");
+});
 
 againBtn.addEventListener("click", async () => {
   await ensureWordsWithLoading();

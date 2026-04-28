@@ -8,6 +8,13 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="ambient-lights">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
 <div class="app">
   <main class="shell">
     <section id="home" class="home">
@@ -53,7 +60,10 @@
             <button id="lens" class="power" aria-label="Lupa">🔍</button>
           </div>
 
-          <div id="keyboard" class="keyboard"></div>
+          <div class="keyboard-zone">
+            <div id="keyboard" class="keyboard"></div>
+            <button id="submitGuess" class="submit-guess">Enviar</button>
+          </div>
         </section>
       </div>
     </section>
