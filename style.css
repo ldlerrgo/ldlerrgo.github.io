@@ -20,6 +20,7 @@
   --error:#fecaca;
   --shadow:0 34px 100px rgba(0,0,0,.56);
   --tile-size:62px;
+  --tile-gap:9px;
 }
 
 *{
@@ -298,6 +299,39 @@ p{
   backdrop-filter:blur(16px);
 }
 
+#backHome{
+  min-width:96px;
+  color:var(--gold2);
+  background:
+    linear-gradient(135deg,rgba(255,231,163,.18),rgba(96,165,250,.10)),
+    rgba(255,255,255,.075);
+  border:1px solid rgba(255,231,163,.34);
+  box-shadow:
+    0 12px 30px rgba(214,178,94,.16),
+    inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+#backHome::after{
+  content:"";
+  position:absolute;
+  width:34px;
+  height:34px;
+  right:-14px;
+  top:-14px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,231,163,.45),transparent 68%);
+  pointer-events:none;
+}
+
+#backHome:hover{
+  color:#fff5c8;
+  border-color:rgba(255,231,163,.58);
+  box-shadow:
+    0 16px 38px rgba(214,178,94,.25),
+    0 0 28px rgba(255,231,163,.12),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
 .primary:hover,
 .secondary:hover,
 .power:hover,
@@ -419,8 +453,10 @@ p{
 }
 
 .left-panel{
+  position:relative;
   justify-content:center;
   padding:22px;
+  overflow:hidden;
 }
 
 .right-panel{
@@ -429,15 +465,24 @@ p{
 }
 
 .board{
+  position:absolute;
+  left:50%;
+  top:50%;
+  translate:-50% -50%;
+  width:fit-content;
+  max-width:calc(100% - 24px);
+  max-height:calc(100% - 62px);
   display:grid;
-  grid-template-rows:repeat(6,1fr);
-  gap:9px;
+  grid-template-rows:repeat(6,var(--tile-size));
+  justify-content:center;
+  align-content:center;
+  gap:var(--tile-gap);
 }
 
 .row{
   display:grid;
   grid-template-columns:repeat(5,var(--tile-size));
-  gap:9px;
+  gap:var(--tile-gap);
 }
 
 .tile{
@@ -489,8 +534,11 @@ p{
 }
 
 .status{
-  min-height:38px;
-  margin-top:14px;
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:14px;
+  min-height:28px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -498,6 +546,7 @@ p{
   font-size:15px;
   font-weight:900;
   text-align:center;
+  pointer-events:none;
 }
 
 .tools{
@@ -564,15 +613,15 @@ p{
   box-shadow:0 10px 22px rgba(0,0,0,.14);
 }
 
+.key.wide{
+  min-width:86px;
+  font-size:12px;
+}
+
 .key.spacer{
   visibility:hidden;
   pointer-events:none;
   box-shadow:none;
-}
-
-.key.wide{
-  min-width:86px;
-  font-size:12px;
 }
 
 .key.delete{
@@ -845,7 +894,8 @@ p{
 
 @media (max-width:930px){
   :root{
-    --tile-size:min(13.1vw,42px);
+    --tile-size:clamp(30px,11.4vw,38px);
+    --tile-gap:4px;
   }
 
   body{
@@ -861,6 +911,7 @@ p{
     width:100%;
     height:100%;
     border-radius:20px;
+    overflow:hidden;
   }
 
   .home{
@@ -896,14 +947,14 @@ p{
 
   .game{
     height:100%;
-    padding:7px 7px calc(72px + env(safe-area-inset-bottom));
+    padding:8px 8px calc(72px + env(safe-area-inset-bottom));
     display:none;
   }
 
   .topbar{
-    min-height:42px;
-    height:42px;
-    padding:0 2px 4px;
+    min-height:44px;
+    height:44px;
+    padding:0 2px 6px;
     align-items:center;
   }
 
@@ -922,55 +973,74 @@ p{
     border-radius:13px;
   }
 
-  .play-area{
-    height:calc(100% - 42px);
-    display:grid;
-    grid-template-columns:1fr;
-    grid-template-rows:minmax(0,.92fr) minmax(0,.9fr);
-    gap:10px;
-    align-items:stretch;
+  #backHome{
+    min-width:84px;
+    min-height:34px;
+    padding:7px 12px;
   }
 
-  .left-panel,
-  .right-panel{
-    min-height:0;
-    border-radius:18px;
-    padding:6px;
+  .play-area{
+    height:calc(100% - 44px);
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-rows:minmax(0,.86fr) minmax(0,1fr);
+    gap:12px;
+    align-items:stretch;
+    overflow:hidden;
   }
 
   .left-panel{
-    justify-content:center;
+    position:relative;
+    width:100%;
+    min-height:0;
+    height:100%;
+    border-radius:18px;
+    padding:0;
+    overflow:hidden;
   }
 
   .right-panel{
+    width:100%;
+    min-height:0;
+    height:100%;
     justify-content:flex-start;
     background:transparent;
     border-color:transparent;
     box-shadow:none;
     backdrop-filter:none;
     padding:0 2px;
+    overflow:hidden;
   }
 
   .board{
-    gap:4px;
+    left:50%;
+    top:50%;
+    translate:-50% -50%;
+    max-width:calc(100% - 12px);
+    max-height:calc(100% - 32px);
+    gap:var(--tile-gap);
   }
 
   .row{
-    grid-template-columns:repeat(5,var(--tile-size));
-    gap:4px;
+    gap:var(--tile-gap);
   }
 
   .tile{
     width:var(--tile-size);
     height:var(--tile-size);
-    border-radius:10px;
-    font-size:clamp(16px,5.5vw,22px);
+    border-radius:9px;
+    font-size:clamp(15px,5vw,21px);
+  }
+
+  .tile.active{
+    box-shadow:0 0 0 2px rgba(255,231,163,.26),0 0 20px rgba(214,178,94,.22);
   }
 
   .status{
-    min-height:20px;
-    height:20px;
-    margin-top:5px;
+    left:6px;
+    right:6px;
+    bottom:5px;
+    min-height:18px;
     font-size:10.5px;
     line-height:1.15;
   }
@@ -978,6 +1048,7 @@ p{
   .tools{
     gap:12px;
     margin:4px 0 12px;
+    flex-shrink:0;
   }
 
   .power{
@@ -989,12 +1060,13 @@ p{
 
   .keyboard-zone{
     width:100%;
-    gap:10px;
+    gap:12px;
+    flex-shrink:0;
   }
 
   .keyboard{
     width:100%;
-    gap:5px;
+    gap:6px;
   }
 
   .key-row{
@@ -1008,20 +1080,26 @@ p{
     height:54px;
     padding:0 2px;
     border-radius:12px;
-    font-size:11px;
+    font-size:18px;
   }
 
   .key.wide{
     flex:1.55;
     min-width:0;
-    font-size:9px;
+    font-size:18px;
+  }
+
+  .key.spacer{
+    visibility:hidden;
+    pointer-events:none;
+    box-shadow:none;
   }
 
   .submit-guess{
     width:100%;
-    height:42px;
-    min-height:42px;
-    border-radius:12px;
+    height:44px;
+    min-height:44px;
+    border-radius:13px;
     font-size:14px;
   }
 
@@ -1034,7 +1112,7 @@ p{
 
 @media (max-width:930px) and (min-height:820px){
   :root{
-    --tile-size:min(13.5vw,44px);
+    --tile-size:clamp(32px,12vw,40px);
   }
 
   .game{
@@ -1042,7 +1120,16 @@ p{
   }
 
   .play-area{
-    grid-template-rows:minmax(0,.94fr) minmax(0,.9fr);
+    grid-template-rows:minmax(0,.88fr) minmax(0,1fr);
+    gap:14px;
+  }
+
+  .board{
+    max-height:calc(100% - 34px);
+  }
+
+  .tools{
+    margin:6px 0 14px;
   }
 
   .key{
@@ -1050,8 +1137,8 @@ p{
   }
 
   .submit-guess{
-    height:44px;
-    min-height:44px;
+    height:46px;
+    min-height:46px;
   }
 
   .power{
@@ -1061,21 +1148,23 @@ p{
 
 @media (max-width:930px) and (max-height:760px){
   :root{
-    --tile-size:min(12vw,37px);
+    --tile-size:clamp(28px,10.4vw,34px);
+    --tile-gap:3px;
   }
 
   .game{
-    padding-bottom:calc(64px + env(safe-area-inset-bottom));
+    padding:6px 6px calc(66px + env(safe-area-inset-bottom));
   }
 
   .topbar{
     min-height:38px;
     height:38px;
+    padding-bottom:4px;
   }
 
   .play-area{
     height:calc(100% - 38px);
-    grid-template-rows:minmax(0,.86fr) minmax(0,.96fr);
+    grid-template-rows:minmax(0,.78fr) minmax(0,1fr);
     gap:8px;
   }
 
@@ -1089,18 +1178,31 @@ p{
     font-size:11px;
   }
 
-  .key{
-    height:54px;
-    font-size:10px;
+  #backHome{
+    min-width:78px;
+    min-height:31px;
+    padding:6px 10px;
   }
 
-  .key.wide{
-    font-size:7.2px;
+  .board{
+    max-width:calc(100% - 10px);
+    max-height:calc(100% - 26px);
   }
 
-  .submit-guess{
-    height:40px;
-    min-height:40px;
+  .tile{
+    border-radius:8px;
+    font-size:clamp(14px,4.6vw,19px);
+  }
+
+  .status{
+    bottom:4px;
+    min-height:16px;
+    font-size:9.8px;
+  }
+
+  .tools{
+    margin:2px 0 8px;
+    gap:10px;
   }
 
   .power{
@@ -1109,20 +1211,33 @@ p{
     font-size:16px;
   }
 
-  .tools{
-    margin:3px 0 9px;
+  .keyboard-zone{
+    gap:9px;
   }
 
-  .status{
-    min-height:18px;
-    height:18px;
-    font-size:10px;
+  .keyboard{
+    gap:5px;
+  }
+
+  .key{
+    height:52px;
+    font-size:16px;
+    border-radius:11px;
+  }
+
+  .key.wide{
+    font-size:11px;
+  }
+
+  .submit-guess{
+    height:40px;
+    min-height:40px;
   }
 }
 
 @media (max-width:430px){
   :root{
-    --tile-size:min(12.9vw,41px);
+    --tile-size:clamp(29px,11vw,36px);
   }
 
   .topbar{
@@ -1133,12 +1248,12 @@ p{
     font-size:21px;
   }
 
-  .left-panel{
-    padding:6px;
+  .play-area{
+    gap:10px;
   }
 
   .keyboard{
-    gap:5px;
+    gap:6px;
   }
 
   .key-row{
@@ -1147,23 +1262,23 @@ p{
 
   .key{
     height:54px;
-    font-size:10px;
-    border-radius:8px;
+    font-size:16px;
+    border-radius:11px;
   }
 
   .key.wide{
-    font-size:7.4px;
+    font-size:11px;
   }
 
   .submit-guess{
-    height:42px;
-    min-height:42px;
+    height:43px;
+    min-height:43px;
   }
 }
 
 @media (max-width:390px){
   :root{
-    --tile-size:min(12.4vw,37px);
+    --tile-size:clamp(28px,10.5vw,34px);
   }
 
   .title{
@@ -1176,13 +1291,21 @@ p{
     font-size:11px;
   }
 
+  #backHome{
+    min-width:76px;
+  }
+
+  .play-area{
+    gap:8px;
+  }
+
   .key{
-    height:54px;
+    height:52px;
     font-size:9.5px;
   }
 
   .key.wide{
-    font-size:7px;
+    font-size:7.5px;
   }
 
   .submit-guess{
@@ -1200,6 +1323,7 @@ p{
 @media (max-height:690px) and (min-width:931px){
   :root{
     --tile-size:54px;
+    --tile-gap:7px;
   }
 
   .shell{
