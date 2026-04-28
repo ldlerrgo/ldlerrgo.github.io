@@ -30,7 +30,6 @@ const answerBox = document.getElementById("answer");
 const bombBtn = document.getElementById("bomb");
 const lensBtn = document.getElementById("lens");
 const playBtn = document.getElementById("play");
-const newGameBtn = document.getElementById("newGame");
 const backHomeBtn = document.getElementById("backHome");
 const againBtn = document.getElementById("again");
 const closeOverlayBtn = document.getElementById("closeOverlay");
