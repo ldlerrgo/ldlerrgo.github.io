@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Wordle!</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <main class="shell">
+    <section id="home" class="home">
+      <div class="home-content">
+        <div class="eyebrow">Juego de palabras</div>
+        <div class="brand">Wordle!</div>
+        <h1>Encuentra la palabra oculta</h1>
+        <p>Escribe una palabra de cinco letras. Después de cada intento, el tablero y el teclado te mostrarán qué letras acertaste.</p>
+        <div class="home-actions">
+          <button id="play" class="primary">Jugar ahora</button>
+        </div>
+      </div>
+
+      <div class="home-preview">
+        <div class="preview-card">
+          <div class="preview-grid">
+            <div>W</div><div>O</div><div>R</div><div>D</div><div>E</div>
+            <div>L</div><div>E</div><div>T</div><div>R</div><div>A</div>
+            <div>C</div><div>L</div><div>A</div><div>V</div><div>E</div>
+          </div>
+          <div class="preview-note">Banco ampliado, ayudas especiales y diseño premium.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="game" class="game">
+      <header class="topbar">
+        <div>
+          <div class="title">Wordle!</div>
+          <div id="bankInfo" class="bank-info">Preparando banco de palabras</div>
+        </div>
+        <div class="top-actions">
+          <button id="newGame" class="secondary">Nueva palabra</button>
+          <button id="backHome" class="secondary">Inicio</button>
+        </div>
+      </header>
+
+      <div class="play-area">
+        <section class="left-panel">
+          <div id="board" class="board"></div>
+          <div id="status" class="status"></div>
+        </section>
+
+        <section class="right-panel">
+          <div class="power-panel">
+            <div>
+              <div class="panel-title">Ayudas</div>
+              <div class="panel-text">Cada poder solo puede usarse una vez por partida.</div>
+            </div>
+            <div class="tools">
+              <button id="bomb" class="power" aria-label="Bomba">💣</button>
+              <button id="lens" class="power" aria-label="Lupa">🔍</button>
+            </div>
+          </div>
+
+          <div id="keyboard" class="keyboard"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loader-card">
+    <div class="loader-orbit">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <h2>Cargando palabras</h2>
+    <p id="loadingText">Preparando el banco para la partida...</p>
+    <div class="progress-track">
+      <div id="loadingProgress" class="progress-fill"></div>
+    </div>
+    <div id="loadingPercent" class="loading-percent">0%</div>
+  </div>
+</div>
+
+<div id="overlay" class="overlay">
+  <div class="modal">
+    <h2 id="overlayTitle"></h2>
+    <p id="overlayText"></p>
+    <div id="answer" class="answer-pill"></div>
+    <div class="modal-actions">
+      <button id="again" class="primary">Jugar otra vez</button>
+      <button id="closeOverlay" class="secondary">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="words.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
