@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Cena en Restaurante",
+    "date": "2026-05-08",
+    "description": "Celebración de aniversario en el centro.",
+    "budget": 80
+  },
+  {
+    "title": "Paseo por la ciudad",
+    "date": "2026-05-12",
+    "description": "Caminar por el casco antiguo y tomar un café."
+  },
+  {
+    "title": "Noche de Cine",
+    "date": "2026-05-20",
+    "description": "Ver la película de estreno.",
+    "budget": 35
+  },
+  {
+    "title": "Visita al museo",
+    "date": "2026-05-28",
+    "budget": 20
+  },
+  {
+    "title": "Cita futura (No visible)",
+    "date": "2026-06-15",
+    "description": "Esta cita no debe aparecer porque es de otro mes.",
+    "budget": 50
+  }
+]
